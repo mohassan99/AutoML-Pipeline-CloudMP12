@@ -1,0 +1,53 @@
+{
+  "TrainingJobName": "{% $states.input.id & '-training' %}",
+  "RoleArn": "arn:aws:iam::635245520742:role/mp12-sagemaker-role",
+  "AlgorithmSpecification": {
+    "TrainingImage": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-scikit-learn:0.23-1-cpu-py3",
+    "TrainingInputMode": "File",
+    "ContainerEntrypoint": [
+      "python3"
+    ],
+    "ContainerArguments": [
+      "/opt/ml/input/data/script/train.py",
+      "processed_base1_dataset.csv",
+      "s3://models-zengrit/staging/"
+    ]
+  },
+  "InputDataConfig": [
+    {
+      "ChannelName": "train",
+      "DataSource": {
+        "S3DataSource": {
+          "S3DataType": "S3Prefix",
+          "S3Uri": "s3://datasets-zengrit/processed/",
+          "S3DataDistributionType": "FullyReplicated"
+        }
+      },
+      "ContentType": "application/x-parquet",
+      "InputMode": "File"
+    },
+    {
+      "ChannelName": "script",
+      "DataSource": {
+        "S3DataSource": {
+          "S3DataType": "S3Prefix",
+          "S3Uri": "s3://scripts-zengrit/",
+          "S3DataDistributionType": "FullyReplicated"
+        }
+      },
+      "ContentType": "text/x-python",
+      "InputMode": "File"
+    }
+  ],
+  "OutputDataConfig": {
+    "S3OutputPath": "s3://models-zengrit/staging/"  
+  },
+  "ResourceConfig": {
+    "InstanceCount": 1,
+    "InstanceType": "ml.m5.large",
+    "VolumeSizeInGB": 10
+  },
+  "StoppingCondition": {
+    "MaxRuntimeInSeconds": 3600
+  }
+}
