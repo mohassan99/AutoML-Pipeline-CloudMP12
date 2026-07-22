@@ -2,8 +2,6 @@
 
 An automated machine learning pipeline built on AWS that detects concept drift in incoming data, retrains a classification model when drift is detected, evaluates the challenger model against the production champion using F1 score, and deploys a new endpoint only when the challenger outperforms the current model. The entire workflow is event-driven and fully automated — uploading a dataset to S3 triggers the pipeline end to end.
 
-**Score: 3/3 (100%)**
-
 ---
 
 ## Why this pattern matters
