@@ -84,7 +84,7 @@ def extract_tarball(tarball_path, extract_to):
         tar.extractall(path=extract_to)
     return extract_to
 
-def get_production_model(model_name="mp13-production-model"):
+def get_production_model(model_name="production-model"):
     """
     Retrieves and loads the production (champion) model with the specified model name from SageMaker.
     
