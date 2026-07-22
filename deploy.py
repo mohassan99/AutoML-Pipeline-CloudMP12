@@ -1,4 +1,5 @@
 import json
+import os
 import boto3
 from botocore.exceptions import ClientError
 
@@ -17,10 +18,13 @@ def lambda_handler(event, context):
     if not model_artifact_s3_uri:
         raise ValueError("event must contain key with the S3 URI of the model artifact or an 'id'")
 
-    execution_role_arn    = "arn:aws:iam::635245520742:role/mp12-sagemaker-role"
-    model_name            = "mp13-production-model"
-    ep_config_name        = "mp13-production-endpoint-config"
-    endpoint_name         = "mp13-production-endpoint"
+    # WARNING: Do not hardcode the real role ARN here -- this file is
+    # public. Set AWS_EXECUTION_ROLE_ARN in the Lambda's environment
+    # variables instead.
+    execution_role_arn    = os.environ["AWS_EXECUTION_ROLE_ARN"]
+    model_name            = "production-model"
+    ep_config_name        = "production-endpoint-config"
+    endpoint_name         = "production-endpoint"
 
     # ──────────────────────────────────────────────────────────
     #  2) delete old model
