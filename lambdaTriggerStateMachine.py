@@ -1,4 +1,5 @@
 import json
+import os
 import boto3
 import re
 import urllib.parse
@@ -35,8 +36,10 @@ def lambda_handler(event, context):
         "fileName": file_name
     }
     
-    # Start the Step Functions execution
-    state_machine_arn = "arn:aws:states:us-east-1:635245520742:stateMachine:drift-retrain-test-deploy" # TODO: Update with your Step Function ARN (not IAM ARN)
+    # WARNING: Do not hardcode the real ARN here -- this file is public.
+    # Set AWS_STATE_MACHINE_ARN in the Lambda's environment variables
+    # instead.
+    state_machine_arn = os.environ["AWS_STATE_MACHINE_ARN"]
     print(f"Constructed Payload: {json.dumps(payload)}")
     print(f"Triggering State Machine: {state_machine_arn}")
     
